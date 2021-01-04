@@ -36,9 +36,11 @@
 
 class DeviceUnsupportedError : public std::exception
 {
+    uint32_t chipId, deviceId;
 public:
-    DeviceUnsupportedError() : exception() {};
-    const char* what() const throw() { return "Device unsupported"; }
+    DeviceUnsupportedError(uint32_t _chipId, uint32_t _deviceId) : exception(), chipId(_chipId), deviceId(_deviceId) {};
+    // There can only be one DeviceUnsupportedError at a time and it kills bossa, so a static buffer is ok
+    const char* what() const throw() { static char buf[256]; snprintf(buf, sizeof(buf), "Unsupported chip 0x%08X device 0x%08X", chipId, deviceId); return buf; }
 };
 
 class Device

@@ -615,7 +615,7 @@ Device::create()
         // Unknown
         //
         default:
-            throw DeviceUnsupportedError();
+            throw DeviceUnsupportedError(0, deviceId & 0xffff00ff);
             break;
         }
         break;
@@ -624,7 +624,7 @@ Device::create()
     // Unsupported device
     //
     default:
-        throw DeviceUnsupportedError();
+        throw DeviceUnsupportedError(chipId & 0x7fffffe0, deviceId);
         break;
     }
 

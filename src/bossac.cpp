@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <unistd.h>
 #include <sys/time.h>
 #include <unistd.h>
 
@@ -409,8 +410,12 @@ main(int argc, char* argv[])
 	res = samba.connect(port);
         if (!res)
         {
-            fprintf(stderr, "bossac: Can't connect to port found on %s. Check it has a bootloader installed\n", config.portArg.c_str());
-            return 1;
+	    sleep(1);
+	    res = samba.connect(port);
+	    if (!res) {
+		fprintf(stderr, "bossac: Can't connect to port found on %s. Check it has a bootloader installed\n", config.portArg.c_str());
+		return 1;
+	    }
         }
 
         Device device(samba);
